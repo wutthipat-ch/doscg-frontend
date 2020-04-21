@@ -20,6 +20,11 @@ export default {
   methods: {
     async sendRequest() {
         const res = await axios.get('http://localhost:3000/api/directions')
+          .catch(() => null)
+        if (!res) {
+          this.respStr3 = 'Connection error'
+          return
+        }
         if (!res.data) this.respStr3 = 'Oops! Something went wrong'
         else this.respStr3 = JSON.stringify(res.data)
     }

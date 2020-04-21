@@ -21,8 +21,14 @@ export default {
   },
   methods: {
     async sendRequest() {
+        this.respStr4 = ''
         const message = this.message
         const res = await axios.post('http://localhost:3000/linebot/messages', { message })
+          .catch(() => null)
+        if (!res) {
+          this.respStr4 = 'The request body format is invalid, or connection error'
+          return
+        }
         if (res.status !== 200) this.respStr4 = 'Something went wrong, cannot send message to line bot'
         else this.respStr4 = 'Send message successfully'
     },

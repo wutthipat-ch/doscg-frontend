@@ -23,12 +23,17 @@ export default {
   },
   methods: {
     async sendRequest() {
+        this.respStr2 = ''
         let equations = JSON.parse(this.equationStr)
         equations = equations.map((row) => {
           return { x: row[0], y: row[1], z: row[2], c: row[3] }
         })
-        console.log(equations);
         const res = await axios.post('http://localhost:3000/api/equations', { equations })
+          .catch(() => null)
+        if (!res) {
+          this.respStr2 = 'The request body format is invalid, or connection error'
+          return
+        }
         if (!res.data) this.respStr2 = 'There is no solution for these eqautions'
         else this.respStr2 = JSON.stringify(res.data)
     },

@@ -21,8 +21,14 @@ export default {
   },
   methods: {
     async sendRequest() {
+        this.respStr1 = ''
         const seq = this.sequenceStr
         const res = await axios.post('http://localhost:3000/api/sequences', { seq })
+          .catch(() => null)
+        if (!res) {
+          this.respStr1 = 'The request body format is invalid, or connection error'
+          return
+        }
         if (!res.data) this.respStr1 = 'There is no solution for this sequence'
         else this.respStr1 = JSON.stringify(res.data)
     },
